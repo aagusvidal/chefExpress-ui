@@ -10,14 +10,19 @@ import java.awt.*;
 public class MainView extends JFrame implements Observable {
 
     JComboBox<String> comboBox;
+    JPanel panel;
+    JLabel labelTitulo;
     public MainView() {
-        setTitle("Chef Express");
 
-        String[] opciones = {"Saludables"};
+        setTitle("Chef Express");
+       panel = new JPanel(new BorderLayout());
+        labelTitulo = new JLabel("Chef Express");
+        panel.add(labelTitulo, BorderLayout.NORTH);
+        String[] opciones = {" ", "Saludables"};
         comboBox = new JComboBox<>(opciones);
         setLayout(new FlowLayout());
-        add(comboBox);
-
+        panel.add(comboBox);
+        add(panel);
         setSize(300, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
