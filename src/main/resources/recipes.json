@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "Hamburguesa con queso y papas fritas",
+        "name": "Hamb",
         "ingredients": {
             "Carne de hamburguesa": 1,
             "Pan de hamburguesa": 1,
@@ -15,7 +15,7 @@
     },
     {
         "id": 2,
-	    "name": "Fish",
+	    "name": "Pescado con espárragos al limón",
         "ingredients": {
             "salmón": 2.0,
             "espárragos": 8.0,
