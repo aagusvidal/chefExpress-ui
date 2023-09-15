@@ -1,5 +1,6 @@
 package controllers;
 
+import core.ObservableChefExpress;
 import entities.Recipe;
 import vistas.MainView;
 
@@ -9,18 +10,17 @@ import java.util.List;
 
 public class MainController implements PropertyChangeListener
 {
-    MainView mainView;
+    private MainView mainView;
+    private ObservableChefExpress chefExpress;
 
-    public MainController(MainView view)
+    public MainController(MainView view, ObservableChefExpress chefExpress)
     {
         this.mainView = view;
-        view.setVisible( true );
+        this.chefExpress = chefExpress;
+        chefExpress.attach(this);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt)
-    {
-        List<Recipe> recommendRecipes = (List<Recipe>) evt.getNewValue();
-        System.out.println(recommendRecipes.get(0).getName());
-    }
+    {}
 }
