@@ -1,14 +1,14 @@
 package controllers;
 
 import core.ObservableChefExpress;
-import entities.Recipe;
 import vistas.MainView;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
-public class MainController implements PropertyChangeListener
+public class MainController implements PropertyChangeListener, ActionListener
 {
     private MainView mainView;
     private ObservableChefExpress chefExpress;
@@ -17,10 +17,27 @@ public class MainController implements PropertyChangeListener
     {
         this.mainView = view;
         this.chefExpress = chefExpress;
+
         chefExpress.attach(this);
+
+        this.mainView.getBtnRecommend().addActionListener( this );
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt)
     {}
+
+    @Override
+    public void actionPerformed(ActionEvent event)
+    {
+        if ( event.getSource() == this.mainView.getBtnRecommend() )
+        {
+            this.onRecommend();
+        }
+    }
+
+    private void onRecommend()
+    {
+        this.chefExpress.recommend();
+    }
 }

@@ -11,7 +11,5 @@ public class Main
 
                 MainView view = new MainView(chefExpress);
                 view.start();
-
-                chefExpress.recommend();
         }
 }

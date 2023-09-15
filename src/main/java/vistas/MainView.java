@@ -15,6 +15,8 @@ public class MainView extends JFrame implements PropertyChangeListener
     private JComboBox<String> comboBox;
     private JPanel panel;
     private JLabel labelTitulo;
+    private JButton btnRecommend;
+
 
     public MainView(ObservableChefExpress chefExpress)
     {
@@ -36,8 +38,19 @@ public class MainView extends JFrame implements PropertyChangeListener
         setLayout(new FlowLayout());
         panel.add(comboBox);
         add(panel);
+
+        this.btnRecommend = new JButton();
+        this.btnRecommend.setText( "Recommend" );
+        this.btnRecommend.setBounds( 10, 200, 100, 27 );
+        this.panel.add( this.btnRecommend);
+
         setSize(300, 100);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public JButton getBtnRecommend()
+    {
+        return this.btnRecommend;
     }
 
     @Override
