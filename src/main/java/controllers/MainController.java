@@ -1,29 +1,15 @@
 package controllers;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import model.InitCore;
 import vistas.MainView;
 
-public class MainController implements Observable {
+public class MainController
+{
 
     MainView mainView;
-    InitCore core;
 
-    @SuppressWarnings("deprecation")
-    public MainController(MainView view, InitCore initCore) {
+    public MainController(MainView view)
+    {
         this.mainView = view;
-        this.core = initCore;
         view.setVisible( true );
-    }
-
-    @Override
-    public void addListener(InvalidationListener listener) {
-
-    }
-
-    @Override
-    public void removeListener(InvalidationListener listener) {
-
     }
 }

@@ -1,13 +1,14 @@
-import controllers.MainController;
-import model.InitCore;
+import core.ObservableChefExpress;
 import vistas.MainView;
+import factories.ChefExpressFactory;
 
-public class Main {
-        public static void main(String[] args) {
-            MainView vistaPrincipal = new MainView();
-            InitCore init = new InitCore();
-            MainController mainController = new MainController(vistaPrincipal, init);
+public class Main
+{
+        public static void main(String[] args) throws Exception
+        {
+                ChefExpressFactory factory = new ChefExpressFactory("conf/chefExpress.properties");
+                ObservableChefExpress chefExpress = factory.createChefExpress();
 
-
+                MainView vistaPrincipal = new MainView();
         }
 }
