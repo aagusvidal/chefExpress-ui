@@ -1,7 +1,7 @@
 package vistas;
 
 import controllers.MainController;
-import core.ObservableChefExpress;
+import core.ChefExpress;
 import entities.Recipe;
 
 import javax.swing.*;
@@ -11,7 +11,8 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 
-public class MainView extends JFrame implements PropertyChangeListener {
+public class MainView extends JFrame implements PropertyChangeListener
+{
     private JComboBox<String> comboBox;
     private JPanel panel;
     private JLabel labelTitulo;
@@ -19,7 +20,7 @@ public class MainView extends JFrame implements PropertyChangeListener {
     private JTextArea lblRecommendations;
 
 
-    public MainView(ObservableChefExpress chefExpress) {
+    public MainView(ChefExpress chefExpress) {
         createViewComponents();
         MainController controller = new MainController(this, chefExpress);
         chefExpress.attach(this);
@@ -67,7 +68,7 @@ public class MainView extends JFrame implements PropertyChangeListener {
         showRecipes(recommendRecipes);
     }
 
-    private void showRecipes(List<Recipe> recipes) {
+    public void showRecipes(List<Recipe> recipes) {
         StringBuilder recommendationsText = new StringBuilder();
 
         for (Recipe recipe : recipes) {

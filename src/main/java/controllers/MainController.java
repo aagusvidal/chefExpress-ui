@@ -1,19 +1,21 @@
 package controllers;
 
-import core.ObservableChefExpress;
+import core.ChefExpress;
+import entities.Recipe;
 import vistas.MainView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 public class MainController implements PropertyChangeListener, ActionListener
 {
     private MainView mainView;
-    private ObservableChefExpress chefExpress;
+    private ChefExpress chefExpress;
 
-    public MainController(MainView view, ObservableChefExpress chefExpress)
+    public MainController(MainView view, ChefExpress chefExpress)
     {
         this.mainView = view;
         this.chefExpress = chefExpress;
@@ -38,6 +40,7 @@ public class MainController implements PropertyChangeListener, ActionListener
 
     private void onRecommend()
     {
-        this.chefExpress.recommend();
+        java.util.List<Recipe> recommendRecipes = this.chefExpress.recommend();
+        this.mainView.showRecipes(recommendRecipes);
     }
 }
