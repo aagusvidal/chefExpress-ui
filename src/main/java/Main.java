@@ -7,8 +7,8 @@ public class Main
 {
         public static void main(String[] args) throws Exception
         {
-                ChefExpressFactory factory = new ChefExpressFactory("conf/chefExpress.properties");
-                ChefExpress chefExpress = factory.createChefExpress();
+                ChefExpressFactory factory = new ChefExpressFactory();
+                ChefExpress chefExpress = factory.createChefExpress("conf/chefExpress.properties");
                 MainView view = new MainView(chefExpress);
                 view.start();
         }
