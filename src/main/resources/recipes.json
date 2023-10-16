@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "Hamb",
+        "name": "Hamburguesa con papas fritas",
         "ingredients": {
             "Carne de hamburguesa": 1,
             "Pan de hamburguesa": 1,
@@ -28,14 +28,15 @@
     },
     {
         "id": 3,
-        "name": "3",
+        "name": "Ensalada de quinoa con espinacas",
         "ingredients": {
-            "quinoa": 1.0,
-            "espinacas": 2.0,
-            "tomate": 1.0,
-            "aguacate": 1.0,
-            "limón": 1.0,
-            "aceite de oliva": 2.0
+            "Quinoa": 1.0,
+            "Espinacas": 2.0,
+            "Tomate": 1.0,
+            "Aguacate": 1.0,
+            "Avena": 1.0,
+            "Limón": 1.0,
+            "Aceite de oliva": 2.0
         }
     }
 ]

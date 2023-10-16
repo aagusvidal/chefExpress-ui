@@ -6,11 +6,13 @@ import entities.Recipe;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
-
+import interfaces.RecipeScorer;
 public class MainView extends JFrame implements PropertyChangeListener
 {
     private JComboBox<String> comboBox;
@@ -18,11 +20,11 @@ public class MainView extends JFrame implements PropertyChangeListener
     private JLabel labelTitulo;
     private JButton btnRecommend;
     private JTextArea lblRecommendations;
-
-
-    public MainView(ChefExpress chefExpress) {
+    private MainController controller;
+    public MainView(ChefExpress chefExpress,
+                    List <RecipeScorer> scorers) {
         createViewComponents();
-        MainController controller = new MainController(this, chefExpress);
+        controller = new MainController(this, chefExpress, scorers);
         chefExpress.attach(this);
     }
 
@@ -32,9 +34,13 @@ public class MainView extends JFrame implements PropertyChangeListener
         panel = new JPanel(new FlowLayout());
         labelTitulo = new JLabel("¿Qué tipo de receta buscás?");
         panel.add(labelTitulo);
-
-        String[] opciones = {"Saludables"};
-        comboBox = new JComboBox<>(opciones);
+        comboBox = new JComboBox<>();
+        comboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String seleccionado = (String) comboBox.getSelectedItem();
+                controller.setChefExpressScorer(seleccionado);
+            }
+        });
         panel.add(comboBox);
 
         panel.add(Box.createVerticalStrut(10));
@@ -62,6 +68,9 @@ public class MainView extends JFrame implements PropertyChangeListener
         return this.btnRecommend;
     }
 
+    public JComboBox<String> getComboBox() {
+        return this.comboBox;
+    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         java.util.List<Recipe> recommendRecipes = (List<Recipe>) evt.getNewValue();

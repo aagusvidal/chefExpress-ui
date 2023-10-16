@@ -2,6 +2,7 @@
 import vistas.MainView;
 import core.ChefExpress;
 import factories.ChefExpressFactory;
+import interfaces.RecipeScorer;
 
 public class Main
 {
@@ -9,7 +10,7 @@ public class Main
         {
                 ChefExpressFactory factory = new ChefExpressFactory();
                 ChefExpress chefExpress = factory.createChefExpress("conf/chefExpress.properties");
-                MainView view = new MainView(chefExpress);
+                MainView view = new MainView(chefExpress, factory.getRecipeScorers());
                 view.start();
         }
 }
