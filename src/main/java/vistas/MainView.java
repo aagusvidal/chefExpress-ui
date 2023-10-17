@@ -6,6 +6,8 @@ import core.ChefExpress;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -16,19 +18,20 @@ import entities.Recommendation;
 
 import java.util.List;
 import java.util.Map;
-
-
-public class MainView extends JFrame implements PropertyChangeListener {
+import interfaces.RecipeScorer;
+public class MainView extends JFrame implements PropertyChangeListener
+{
     private JComboBox<String> comboBox;
     private JPanel panel;
     private JLabel labelTitulo;
     private JButton btnRecommend;
     private JTextPane lblRecommendations;
+    private MainController controller;
 
 
-    public MainView(ChefExpress chefExpress) {
+    public MainView(ChefExpress chefExpress, List <RecipeScorer> scorers) {
         createViewComponents();
-        MainController controller = new MainController(this, chefExpress);
+        controller = new MainController(this, chefExpress, scorers);
         chefExpress.attach(this);
     }
 
@@ -38,9 +41,13 @@ public class MainView extends JFrame implements PropertyChangeListener {
         panel = new JPanel(new FlowLayout());
         labelTitulo = new JLabel("¿Qué tipo de receta buscás?");
         panel.add(labelTitulo);
-
-        String[] opciones = {"Saludables"};
-        comboBox = new JComboBox<>(opciones);
+        comboBox = new JComboBox<>();
+        comboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String seleccionado = (String) comboBox.getSelectedItem();
+                controller.setChefExpressScorer(seleccionado);
+            }
+        });
         panel.add(comboBox);
 
         panel.add(Box.createVerticalStrut(10));
@@ -75,6 +82,9 @@ public class MainView extends JFrame implements PropertyChangeListener {
         return this.btnRecommend;
     }
 
+    public JComboBox<String> getComboBox() {
+        return this.comboBox;
+    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         java.util.List<Recommendation> recommendRecipes = (List<Recommendation>) evt.getNewValue();
