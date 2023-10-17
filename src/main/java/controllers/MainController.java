@@ -2,6 +2,7 @@ package controllers;
 
 import core.ChefExpress;
 import entities.Recipe;
+import entities.Recommendation;
 import vistas.MainView;
 
 import java.awt.event.ActionEvent;
@@ -40,7 +41,7 @@ public class MainController implements PropertyChangeListener, ActionListener
 
     private void onRecommend()
     {
-        java.util.List<Recipe> recommendRecipes = this.chefExpress.recommend();
-        this.mainView.showRecipes(recommendRecipes);
+        java.util.List<Recommendation> recommendRecipes = this.chefExpress.recommend();
+        this.mainView.showRecommendations(recommendRecipes);
     }
 }

@@ -2,22 +2,28 @@ package vistas;
 
 import controllers.MainController;
 import core.ChefExpress;
-import entities.Recipe;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import entities.Recommendation;
+
 import java.util.List;
 import java.util.Map;
 
-public class MainView extends JFrame implements PropertyChangeListener
-{
+
+public class MainView extends JFrame implements PropertyChangeListener {
     private JComboBox<String> comboBox;
     private JPanel panel;
     private JLabel labelTitulo;
     private JButton btnRecommend;
-    private JTextArea lblRecommendations;
+    private JTextPane lblRecommendations;
 
 
     public MainView(ChefExpress chefExpress) {
@@ -52,10 +58,17 @@ public class MainView extends JFrame implements PropertyChangeListener
     }
 
     private void addLabelRecommendations() {
-        this.lblRecommendations = new JTextArea();
+        this.lblRecommendations = new JTextPane();
         this.lblRecommendations.setEditable(false);
-        this.lblRecommendations.setPreferredSize(new Dimension(300, 200));
-        panel.add(new JScrollPane(this.lblRecommendations));
+
+        JScrollPane scrollPane = new JScrollPane(this.lblRecommendations);
+
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        scrollPane.setPreferredSize(new Dimension(320, 200));
+
+        panel.add(scrollPane);
     }
 
     public JButton getBtnRecommend() {
@@ -64,24 +77,25 @@ public class MainView extends JFrame implements PropertyChangeListener
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        java.util.List<Recipe> recommendRecipes = (List<Recipe>) evt.getNewValue();
-        showRecipes(recommendRecipes);
+        java.util.List<Recommendation> recommendRecipes = (List<Recommendation>) evt.getNewValue();
+        showRecommendations(recommendRecipes);
     }
 
-    public void showRecipes(List<Recipe> recipes) {
-        StringBuilder recommendationsText = new StringBuilder();
+    public void showRecommendations(List<Recommendation> recommendations) {
+        StringBuilder recommendationsText = new StringBuilder("<html>");
 
-        for (Recipe recipe : recipes) {
-            recommendationsText.append("Receta: ").append(recipe.getName()).append("\n");
+        for (Recommendation recommend : recommendations) {
+            recommendationsText.append("<b>Receta:</b> ").append(recommend.getRecipe().getName()).append("<br>");
+            recommendationsText.append("<a href=\"").append(recommend.getLink() + "").append("\"><u>Ver receta en YouTube</u></a><br>");
+            recommendationsText.append("<b>Ingredientes:</b><br>");
 
-            recommendationsText.append("Ingredientes:\n");
-            for (Map.Entry<String, Float> entry : recipe.getIngredients().entrySet()) {
+            for (Map.Entry<String, Float> entry : recommend.getRecipe().getIngredients().entrySet()) {
                 String ingredientName = entry.getKey();
                 Float ingredientAmount = entry.getValue();
-                recommendationsText.append("- ").append(ingredientName).append(": ").append(ingredientAmount).append("\n");
+                recommendationsText.append("- ").append(ingredientName).append(": ").append(ingredientAmount).append("<br>");
             }
 
-            recommendationsText.append("\n");
+            recommendationsText.append("<br>");
         }
         this.lblRecommendations.setText(recommendationsText.toString());
     }
