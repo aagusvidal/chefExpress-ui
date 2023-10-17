@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import entities.Recipe;
 import entities.Recommendation;
 
 import java.util.Arrays;
@@ -26,8 +27,11 @@ public class MainView extends JFrame implements PropertyChangeListener
     private JPanel panel;
     private JLabel labelTitulo;
     private JButton btnRecommend;
+    private JButton btnBestRecommendations;
     private JTextPane lblRecommendations;
     private MainController controller;
+
+    private JTextArea txtBestRecommendations;
 
 
     public MainView(ChefExpress chefExpress, List <RecipeScorer> scorers) {
@@ -60,9 +64,33 @@ public class MainView extends JFrame implements PropertyChangeListener
 
         addLabelRecommendations();
 
+        addBestRecommendationsBtn();
+
         add(panel);
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    private void addBestRecommendationsBtn() {
+        this.btnBestRecommendations = new JButton();
+        this.btnBestRecommendations.setText("Ver recomendaciones populares");
+        this.btnBestRecommendations.setBounds(10, 350, 100, 27);
+        this.btnBestRecommendations.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Map<String, Float> ingredientes = Map.of(
+                        "aceite de oliva", 2.0f,
+                        "espárragos", 8.0f,
+                        "limón", 1.0f
+                );
+                // TODO Buscar recetas mas recomendadas y pasarlas
+                Recipe recipe1 = new Recipe(1, "Receta 1",ingredientes );
+
+                List<Recipe> recipes = List.of(recipe1, recipe1, recipe1);
+
+                showBestRecommendationsWindow(recipes);
+            }
+        });
+        this.panel.add(this.btnBestRecommendations);
     }
 
     private void addLabelRecommendations() {
@@ -126,6 +154,38 @@ public class MainView extends JFrame implements PropertyChangeListener
                 }
             }
         });
+    }
+
+    private void showBestRecommendationsWindow(List<Recipe> recipes) {
+        JFrame textAreaFrame = new JFrame("Recetas más populares");
+        textAreaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        this.txtBestRecommendations = new JTextArea(10, 40);
+
+        StringBuilder recipesText = new StringBuilder("\n");
+
+        for (Recipe recipe : recipes) {
+            recipesText.append("   • ").append(recipe.getName()).append("\n");
+
+            Map<String, Float> ingredients = recipe.getIngredients();
+            for (Map.Entry<String, Float> entry : ingredients.entrySet()) {
+                String ingredientName = entry.getKey();
+                Float ingredientAmount = entry.getValue();
+                recipesText.append("       - ").append(ingredientName).append(": ").append(ingredientAmount).append("\n");
+            }
+        }
+
+        this.txtBestRecommendations.setText(recipesText.toString());
+
+        JScrollPane scrollPane = new JScrollPane(this.txtBestRecommendations);
+        textAreaFrame.add(scrollPane);
+
+        this.txtBestRecommendations.setWrapStyleWord(true);
+        this.txtBestRecommendations.setEditable(false);
+        textAreaFrame.pack();
+        textAreaFrame.setSize(400, 400);
+
+        textAreaFrame.setVisible(true);
     }
 
     public void start() {
