@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "name": "Pollo a la parrilla",
+        "ingredients": {
+            "pollo": 1,
+            "limon": 1
+        }
+    },
+    {
+        "id": 2,
+	    "name": "Pollo con espárragos al limón",
+        "ingredients": {
+            "pollo": 2.0,
+            "espárragos": 8.0,
+            "limón": 1.0,
+            "papas": 2.0,
+            "aceite de oliva": 2.0,
+            "sal": 0.5
+        }
+        
+    }
+]

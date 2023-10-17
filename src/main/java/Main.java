@@ -4,9 +4,6 @@ import factories.RecommendationLoggerFactory;
 import vistas.MainView;
 import core.ChefExpress;
 import factories.ChefExpressFactory;
-import interfaces.RecipeScorer;
-
-import java.util.concurrent.TimeUnit;
 
 public class Main
 {
