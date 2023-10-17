@@ -121,7 +121,6 @@ public class MainView extends JFrame implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         java.util.List<Recommendation> recommendRecipes = (List<Recommendation>) evt.getNewValue();
-        System.out.println("Recommendation!!");
         showRecommendations(recommendRecipes);
     }
 

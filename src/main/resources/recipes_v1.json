@@ -1,15 +1,16 @@
 [
     {
         "id": 1,
-        "name": "Pollo a la parrilla",
+        "name": "Pollo frito",
         "ingredients": {
             "pollo": 1,
-            "limon": 1
+            "limon": 1,
+            "grasa": 1
         }
     },
     {
         "id": 2,
-	    "name": "Pollo con espárragos al limón",
+	    "name": "Pescado con espárragos al limón",
         "ingredients": {
             "pollo": 2.0,
             "espárragos": 8.0,
