@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 
 import entities.Recommendation;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import interfaces.RecipeScorer;
@@ -92,11 +93,13 @@ public class MainView extends JFrame implements PropertyChangeListener
     }
 
     public void showRecommendations(List<Recommendation> recommendations) {
+        Arrays.stream(this.lblRecommendations.getHyperlinkListeners()).forEach(h -> this.lblRecommendations.removeHyperlinkListener(h));
+
         StringBuilder recommendationsText = new StringBuilder("<html>");
 
         for (Recommendation recommend : recommendations) {
             recommendationsText.append("<b>Receta:</b> ").append(recommend.getRecipe().getName()).append("<br>");
-            recommendationsText.append("<a href=\"").append(recommend.getLink() + "").append("\"><u>Ver receta en YouTube</u></a><br>");
+            recommendationsText.append("<a href=\"").append(recommend.getLink()).append("\"><u>Ver receta en YouTube</u></a><br>");
             recommendationsText.append("<b>Ingredientes:</b><br>");
 
             for (Map.Entry<String, Float> entry : recommend.getRecipe().getIngredients().entrySet()) {
@@ -108,6 +111,21 @@ public class MainView extends JFrame implements PropertyChangeListener
             recommendationsText.append("<br>");
         }
         this.lblRecommendations.setText(recommendationsText.toString());
+
+        recommendationsText.append("</html>");
+
+        lblRecommendations.setContentType("text/html");
+        lblRecommendations.setText(recommendationsText.toString());
+
+        lblRecommendations.addHyperlinkListener(e -> {
+            if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                try {
+                    Desktop.getDesktop().browse(new URI(e.getDescription()));
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 
     public void start() {
