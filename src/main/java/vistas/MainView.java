@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import core.RecommendationLogger;
 import entities.Recipe;
 import entities.Recommendation;
 
@@ -34,9 +35,9 @@ public class MainView extends JFrame implements PropertyChangeListener
     private JTextArea txtBestRecommendations;
 
 
-    public MainView(ChefExpress chefExpress, List <RecipeScorer> scorers) {
+    public MainView(ChefExpress chefExpress, List <RecipeScorer> scorers, RecommendationLogger logger) {
         createViewComponents();
-        controller = new MainController(this, chefExpress, scorers);
+        controller = new MainController(this, chefExpress, scorers, logger);
         chefExpress.attach(this);
     }
 
@@ -75,21 +76,21 @@ public class MainView extends JFrame implements PropertyChangeListener
         this.btnBestRecommendations = new JButton();
         this.btnBestRecommendations.setText("Ver recomendaciones populares");
         this.btnBestRecommendations.setBounds(10, 350, 100, 27);
-        this.btnBestRecommendations.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Map<String, Float> ingredientes = Map.of(
-                        "aceite de oliva", 2.0f,
-                        "espárragos", 8.0f,
-                        "limón", 1.0f
-                );
-                // TODO Buscar recetas mas recomendadas y pasarlas
-                Recipe recipe1 = new Recipe(1, "Receta 1",ingredientes );
-
-                List<Recipe> recipes = List.of(recipe1, recipe1, recipe1);
-
-                showBestRecommendationsWindow(recipes);
-            }
-        });
+//        this.btnBestRecommendations.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                Map<String, Float> ingredientes = Map.of(
+//                        "aceite de oliva", 2.0f,
+//                        "espárragos", 8.0f,
+//                        "limón", 1.0f
+//                );
+//                // TODO Buscar recetas mas recomendadas y pasarlas
+//                Recipe recipe1 = new Recipe(1, "Receta 1",ingredientes );
+//
+//                List<Recipe> recipes = List.of(recipe1, recipe1, recipe1);
+//
+//                showBestRecommendationsWindow(recipes);
+//            }
+//        });
         this.panel.add(this.btnBestRecommendations);
     }
 
@@ -114,6 +115,9 @@ public class MainView extends JFrame implements PropertyChangeListener
     public JComboBox<String> getComboBox() {
         return this.comboBox;
     }
+
+    public JButton getBtnBestRecommendations(){return this.btnBestRecommendations;}
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         java.util.List<Recommendation> recommendRecipes = (List<Recommendation>) evt.getNewValue();
@@ -156,7 +160,7 @@ public class MainView extends JFrame implements PropertyChangeListener
         });
     }
 
-    private void showBestRecommendationsWindow(List<Recipe> recipes) {
+    public void showBestRecommendationsWindow(List<Recipe> recipes) {
         JFrame textAreaFrame = new JFrame("Recetas más populares");
         textAreaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

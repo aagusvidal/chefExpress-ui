@@ -1,6 +1,7 @@
 package controllers;
 
 import core.ChefExpress;
+import core.RecommendationLogger;
 import entities.Recipe;
 import entities.Recommendation;
 import interfaces.RecipeScorer;
@@ -13,23 +14,27 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainController implements PropertyChangeListener, ActionListener
 {
     private MainView mainView;
     private ChefExpress chefExpress;
+    private RecommendationLogger recommendationLogger;
 
     private List <RecipeScorer> scorers;
-    public MainController(MainView view, ChefExpress chefExpress, List <RecipeScorer> scorers)
+    public MainController(MainView view, ChefExpress chefExpress, List <RecipeScorer> scorers, RecommendationLogger logger)
     {
         this.mainView = view;
         this.chefExpress = chefExpress;
         this.scorers = scorers;
+        this.recommendationLogger = logger;
 
         chefExpress.attach(this);
 
         this.mainView.getBtnRecommend().addActionListener( this );
         this.mainView.getComboBox().setModel(new DefaultComboBoxModel<>(this.getScorersArray()));
+        this.mainView.getBtnBestRecommendations().addActionListener(this);
        }
 
     @Override
@@ -43,6 +48,24 @@ public class MainController implements PropertyChangeListener, ActionListener
         {
             this.onRecommend();
         }
+
+        if ( event.getSource() == this.mainView.getBtnBestRecommendations() )
+        {
+            try
+            {
+                this.onBestRecommendations();
+            }
+            catch (InterruptedException e)
+            {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void onBestRecommendations() throws InterruptedException
+    {
+        TimeUnit.SECONDS.sleep(3);
+        this.mainView.showBestRecommendationsWindow(this.recommendationLogger.getTopRecipes());
     }
 
     private void onRecommend()

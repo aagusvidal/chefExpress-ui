@@ -1,8 +1,12 @@
 
+import core.RecommendationLogger;
+import factories.RecommendationLoggerFactory;
 import vistas.MainView;
 import core.ChefExpress;
 import factories.ChefExpressFactory;
 import interfaces.RecipeScorer;
+
+import java.util.concurrent.TimeUnit;
 
 public class Main
 {
@@ -10,7 +14,9 @@ public class Main
         {
                 ChefExpressFactory factory = new ChefExpressFactory();
                 ChefExpress chefExpress = factory.createChefExpress("conf/chefExpress.properties");
-                MainView view = new MainView(chefExpress, factory.getRecipeScorers());
+                RecommendationLogger logger = new RecommendationLoggerFactory().createRecommendationLogger(chefExpress);
+
+                MainView view = new MainView(chefExpress, factory.getRecipeScorers(), logger);
                 view.start();
         }
 }
