@@ -1,7 +1,6 @@
 package vistas;
 
 import controllers.MainController;
-import core.ChefExpress;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -14,7 +13,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import core.RecommendationLogger;
+import core.ChefExpressStatistics;
+import core.VideoRecipeRecommendator;
 import entities.Recipe;
 import entities.Recommendation;
 
@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import interfaces.RecipeScorer;
+
 public class MainView extends JFrame implements PropertyChangeListener
 {
     private JComboBox<String> comboBox;
@@ -35,10 +36,10 @@ public class MainView extends JFrame implements PropertyChangeListener
     private JTextArea txtBestRecommendations;
 
 
-    public MainView(ChefExpress chefExpress, List <RecipeScorer> scorers, RecommendationLogger logger) {
+    public MainView(VideoRecipeRecommendator recommender, List <RecipeScorer> scorers, ChefExpressStatistics chefExpressStatistics) {
         createViewComponents();
-        controller = new MainController(this, chefExpress, scorers, logger);
-        chefExpress.attach(this);
+        controller = new MainController(this, recommender, scorers, chefExpressStatistics);
+        recommender.attach(this);
     }
 
     private void createViewComponents() {
@@ -76,21 +77,7 @@ public class MainView extends JFrame implements PropertyChangeListener
         this.btnBestRecommendations = new JButton();
         this.btnBestRecommendations.setText("Ver recomendaciones populares");
         this.btnBestRecommendations.setBounds(10, 350, 100, 27);
-//        this.btnBestRecommendations.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                Map<String, Float> ingredientes = Map.of(
-//                        "aceite de oliva", 2.0f,
-//                        "espárragos", 8.0f,
-//                        "limón", 1.0f
-//                );
-//                // TODO Buscar recetas mas recomendadas y pasarlas
-//                Recipe recipe1 = new Recipe(1, "Receta 1",ingredientes );
-//
-//                List<Recipe> recipes = List.of(recipe1, recipe1, recipe1);
-//
-//                showBestRecommendationsWindow(recipes);
-//            }
-//        });
+
         this.panel.add(this.btnBestRecommendations);
     }
 

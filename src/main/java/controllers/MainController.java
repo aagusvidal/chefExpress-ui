@@ -1,8 +1,7 @@
 package controllers;
 
-import core.ChefExpress;
-import core.RecommendationLogger;
-import entities.Recipe;
+import core.ChefExpressStatistics;
+import core.VideoRecipeRecommendator;
 import entities.Recommendation;
 import interfaces.RecipeScorer;
 import vistas.MainView;
@@ -19,18 +18,18 @@ import java.util.concurrent.TimeUnit;
 public class MainController implements PropertyChangeListener, ActionListener
 {
     private MainView mainView;
-    private ChefExpress chefExpress;
-    private RecommendationLogger recommendationLogger;
-
+    private VideoRecipeRecommendator recommender;
+    private ChefExpressStatistics chefExpressStatistics;
     private List <RecipeScorer> scorers;
-    public MainController(MainView view, ChefExpress chefExpress, List <RecipeScorer> scorers, RecommendationLogger logger)
+
+    public MainController(MainView view, VideoRecipeRecommendator recommender, List <RecipeScorer> scorers, ChefExpressStatistics chefExpressStatistics)
     {
         this.mainView = view;
-        this.chefExpress = chefExpress;
+        this.recommender = recommender;
         this.scorers = scorers;
-        this.recommendationLogger = logger;
+        this.chefExpressStatistics = chefExpressStatistics;
 
-        chefExpress.attach(this);
+        recommender.attach(this);
 
         this.mainView.getBtnRecommend().addActionListener( this );
         this.mainView.getComboBox().setModel(new DefaultComboBoxModel<>(this.getScorersArray()));
@@ -65,12 +64,12 @@ public class MainController implements PropertyChangeListener, ActionListener
     private void onBestRecommendations() throws InterruptedException
     {
         TimeUnit.SECONDS.sleep(3);
-        this.mainView.showBestRecommendationsWindow(this.recommendationLogger.getTopRecipes());
+        this.mainView.showBestRecommendationsWindow(this.chefExpressStatistics.getTopRecipes());
     }
 
     private void onRecommend()
     {
-        java.util.List<Recommendation> recommendRecipes = this.chefExpress.recommend();
+        java.util.List<Recommendation> recommendRecipes = this.recommender.recommend();
         this.mainView.showRecommendations(recommendRecipes);
     }
 
@@ -84,7 +83,7 @@ public class MainController implements PropertyChangeListener, ActionListener
 
     public void setChefExpressScorer(String scorerName){
         RecipeScorer scorer = this.findScorerByName(scorerName);
-        chefExpress.setScorer(scorer);
+        recommender.setScorer(scorer);
     }
 
     private RecipeScorer findScorerByName(String scorerName){
