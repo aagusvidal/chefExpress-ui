@@ -14,7 +14,7 @@ public class Main
 {
         public static void main(String[] args) throws Exception
         {
-                VideoRecipeRecommendatorBuilder builder = new VideoRecipeRecommendatorBuilder();
+                VideoRecipeRecommendatorBuilder builder = RecipeRecommendatorBuilder();
                 VideoRecipeRecommendator recommender = builder.build("conf/chefExpress.properties");
 
                 List<RecipeScorer> recipeScorers = builder.getRecipeScorers();
