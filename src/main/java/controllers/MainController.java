@@ -1,7 +1,7 @@
 package controllers;
 
 import core.ChefExpressStatistics;
-import core.VideoRecipeRecommendator;
+import core.VideoRecipeRecommender;
 import entities.Recommendation;
 import interfaces.RecipeScorer;
 import vistas.MainView;
@@ -18,11 +18,11 @@ import java.util.concurrent.TimeUnit;
 public class MainController implements PropertyChangeListener, ActionListener
 {
     private MainView mainView;
-    private VideoRecipeRecommendator recommender;
+    private VideoRecipeRecommender recommender;
     private ChefExpressStatistics chefExpressStatistics;
     private List <RecipeScorer> scorers;
 
-    public MainController(MainView view, VideoRecipeRecommendator recommender, List <RecipeScorer> scorers, ChefExpressStatistics chefExpressStatistics)
+    public MainController(MainView view, VideoRecipeRecommender recommender, ChefExpressStatistics chefExpressStatistics)
     {
         this.mainView = view;
         this.recommender = recommender;
@@ -82,17 +82,7 @@ public class MainController implements PropertyChangeListener, ActionListener
     }
 
     public void setChefExpressScorer(String scorerName){
-        RecipeScorer scorer = this.findScorerByName(scorerName);
-        recommender.setScorer(scorer);
-    }
-
-    private RecipeScorer findScorerByName(String scorerName){
-        for (RecipeScorer scorer : scorers) {
-            if (scorer.getName().equals(scorerName)) {
-                return scorer;
-            }
-        }
-        return null;
+        // recommender.setScorer(scorer);
     }
 
 }

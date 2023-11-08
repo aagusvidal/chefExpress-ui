@@ -14,7 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import core.ChefExpressStatistics;
-import core.VideoRecipeRecommendator;
+import core.VideoRecipeRecommender;
 import entities.Recipe;
 import entities.Recommendation;
 
@@ -36,9 +36,9 @@ public class MainView extends JFrame implements PropertyChangeListener
     private JTextArea txtBestRecommendations;
 
 
-    public MainView(VideoRecipeRecommendator recommender, List <RecipeScorer> scorers, ChefExpressStatistics chefExpressStatistics) {
+    public MainView(VideoRecipeRecommender recommender, ChefExpressStatistics chefExpressStatistics) {
         createViewComponents();
-        controller = new MainController(this, recommender, scorers, chefExpressStatistics);
+        controller = new MainController(this, recommender, chefExpressStatistics);
         recommender.attach(this);
     }
 
