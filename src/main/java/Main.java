@@ -1,9 +1,10 @@
 
 
+import core.ChefExpress;
 import core.ChefExpressStatistics;
 import core.VideoRecipeRecommender;
+import factories.ChefExpressBuilder;
 import factories.ChefExpressStatisticsFactory;
-import factories.VideoRecipeRecommendatorBuilder;
 import vistas.MainView;
 
 
@@ -13,8 +14,8 @@ public class Main
 {
         public static void main(String[] args) throws Exception
         {
-                VideoRecipeRecommendatorBuilder builder = new VideoRecipeRecommendatorBuilder();
-                VideoRecipeRecommender recommender = builder.build("conf/chefExpress.properties");
+                ChefExpressBuilder builder = new ChefExpressBuilder();
+                ChefExpress recommender = builder.build("conf/chefExpress.properties");
 
                 ChefExpressStatisticsFactory statisticsFactory = new ChefExpressStatisticsFactory();
                 ChefExpressStatistics chefExpressStatistics = statisticsFactory.create(recommender, "conf/chefExpress.properties");

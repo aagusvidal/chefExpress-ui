@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import core.ChefExpress;
 import core.ChefExpressStatistics;
-import core.VideoRecipeRecommender;
 import entities.Recipe;
 import entities.Recommendation;
 
@@ -35,10 +35,12 @@ public class MainView extends JFrame implements PropertyChangeListener
 
     private JTextArea txtBestRecommendations;
 
+    private ChefExpressStatistics chefExpressStatistics;
 
-    public MainView(VideoRecipeRecommender recommender, ChefExpressStatistics chefExpressStatistics) {
+    public MainView(ChefExpress recommender, ChefExpressStatistics chefExpressStatistics) {
         createViewComponents();
-        controller = new MainController(this, recommender, chefExpressStatistics);
+        this.controller = new MainController(this, recommender, chefExpressStatistics);
+        this.chefExpressStatistics = chefExpressStatistics;
         recommender.attach(this);
     }
 

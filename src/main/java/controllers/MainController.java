@@ -1,33 +1,29 @@
 package controllers;
 
+import core.ChefExpress;
 import core.ChefExpressStatistics;
-import core.VideoRecipeRecommender;
+import entities.Recipe;
 import entities.Recommendation;
-import interfaces.RecipeScorer;
 import vistas.MainView;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MainController implements PropertyChangeListener, ActionListener
 {
     private MainView mainView;
-    private VideoRecipeRecommender recommender;
-    private ChefExpressStatistics chefExpressStatistics;
-    private List <RecipeScorer> scorers;
+    private ChefExpress recommender;
 
-    public MainController(MainView view, VideoRecipeRecommender recommender, ChefExpressStatistics chefExpressStatistics)
+    private ChefExpressStatistics chefExpressStatistics;
+
+    public MainController(MainView view, ChefExpress recommender, ChefExpressStatistics chefExpressStatistics)
     {
         this.mainView = view;
         this.recommender = recommender;
-        this.scorers = scorers;
-        this.chefExpressStatistics = chefExpressStatistics;
 
         recommender.attach(this);
 
@@ -69,20 +65,15 @@ public class MainController implements PropertyChangeListener, ActionListener
 
     private void onRecommend()
     {
-        java.util.List<Recommendation> recommendRecipes = this.recommender.recommend();
+        List<Recipe> recommendRecipes = this.recommender.recommend();
         this.mainView.showRecommendations(recommendRecipes);
     }
 
     public String[] getScorersArray(){
-        List<String> listScorers = new ArrayList<String>();
-        for(RecipeScorer scorer : scorers){
-            listScorers.add (scorer.getName());
-        }
-       return listScorers.toArray(new String[0]);
+       return recommender.scorersNamesArray();
     }
 
     public void setChefExpressScorer(String scorerName){
-        // recommender.setScorer(scorer);
+        recommender.setScorer(scorerName);
     }
-
 }
