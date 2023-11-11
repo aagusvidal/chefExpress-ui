@@ -1,9 +1,8 @@
 package controllers;
 
 import core.ChefExpress;
-import core.ChefExpressStatistics;
+import core.HistoricalRecipesCounter;
 import entities.Recipe;
-import entities.Recommendation;
 import vistas.MainView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,13 +17,13 @@ public class MainController implements PropertyChangeListener, ActionListener
     private MainView mainView;
     private ChefExpress recommender;
 
-    private ChefExpressStatistics chefExpressStatistics;
+    private HistoricalRecipesCounter historicalRecipesCounter;
 
-    public MainController(MainView view, ChefExpress recommender, ChefExpressStatistics chefExpressStatistics)
+    public MainController(MainView view, ChefExpress recommender, HistoricalRecipesCounter historicalRecipesCounter)
     {
         this.mainView = view;
         this.recommender = recommender;
-
+        this.historicalRecipesCounter = historicalRecipesCounter;
         recommender.attach(this);
 
         this.mainView.getBtnRecommend().addActionListener( this );
@@ -60,7 +59,7 @@ public class MainController implements PropertyChangeListener, ActionListener
     private void onBestRecommendations() throws InterruptedException
     {
         TimeUnit.SECONDS.sleep(3);
-        this.mainView.showBestRecommendationsWindow(this.chefExpressStatistics.getTopRecipes());
+        this.mainView.showBestRecommendationsWindow(this.historicalRecipesCounter.getHistoricRecipes());
     }
 
     private void onRecommend()

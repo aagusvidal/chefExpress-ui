@@ -14,14 +14,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import core.ChefExpress;
-import core.ChefExpressStatistics;
+import core.HistoricalRecipesCounter;
 import entities.Recipe;
 import entities.Recommendation;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import interfaces.RecipeScorer;
 
 public class MainView extends JFrame implements PropertyChangeListener
 {
@@ -35,12 +34,12 @@ public class MainView extends JFrame implements PropertyChangeListener
 
     private JTextArea txtBestRecommendations;
 
-    private ChefExpressStatistics chefExpressStatistics;
+    private HistoricalRecipesCounter historicalRecipesCounter;
 
-    public MainView(ChefExpress recommender, ChefExpressStatistics chefExpressStatistics) {
+    public MainView(ChefExpress recommender, HistoricalRecipesCounter historicalRecipesCounter) {
         createViewComponents();
-        this.controller = new MainController(this, recommender, chefExpressStatistics);
-        this.chefExpressStatistics = chefExpressStatistics;
+        this.controller = new MainController(this, recommender, historicalRecipesCounter);
+        this.historicalRecipesCounter = historicalRecipesCounter;
         recommender.attach(this);
     }
 
@@ -109,21 +108,21 @@ public class MainView extends JFrame implements PropertyChangeListener
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        java.util.List<Recommendation> recommendRecipes = (List<Recommendation>) evt.getNewValue();
+        List<Recipe> recommendRecipes = (List<Recipe>) evt.getNewValue();
         showRecommendations(recommendRecipes);
     }
 
-    public void showRecommendations(List<Recommendation> recommendations) {
+    public void showRecommendations(List<Recipe> recipes) {
         Arrays.stream(this.lblRecommendations.getHyperlinkListeners()).forEach(h -> this.lblRecommendations.removeHyperlinkListener(h));
 
         StringBuilder recommendationsText = new StringBuilder("<html>");
 
-        for (Recommendation recommend : recommendations) {
-            recommendationsText.append("<b>Receta:</b> ").append(recommend.getRecipe().getName()).append("<br>");
-            recommendationsText.append("<a href=\"").append(recommend.getLink()).append("\"><u>Ver receta en YouTube</u></a><br>");
+        for (Recipe recipe : recipes) {
+            recommendationsText.append("<b>Receta:</b> ").append(recipe.getName()).append("<br>");
+           // recommendationsText.append("<a href=\"").append(recipe.getLink()).append("\"><u>Ver receta en YouTube</u></a><br>");
             recommendationsText.append("<b>Ingredientes:</b><br>");
 
-            for (Map.Entry<String, Float> entry : recommend.getRecipe().getIngredients().entrySet()) {
+            for (Map.Entry<String, Float> entry : recipe.getIngredients().entrySet()) {
                 String ingredientName = entry.getKey();
                 Float ingredientAmount = entry.getValue();
                 recommendationsText.append("- ").append(ingredientName).append(": ").append(ingredientAmount).append("<br>");
@@ -149,7 +148,7 @@ public class MainView extends JFrame implements PropertyChangeListener
         });
     }
 
-    public void showBestRecommendationsWindow(List<Recipe> recipes) {
+    public void showBestRecommendationsWindow(Map<Recipe, Integer> recipes) {
         JFrame textAreaFrame = new JFrame("Recetas más populares");
         textAreaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -157,8 +156,8 @@ public class MainView extends JFrame implements PropertyChangeListener
 
         StringBuilder recipesText = new StringBuilder("\n");
 
-        for (Recipe recipe : recipes) {
-            recipesText.append("   • ").append(recipe.getName()).append("\n");
+        for (Recipe recipe : recipes.keySet()) {
+            recipesText.append("   • ").append(recipe.getName()).append(". Cantidad de veces recomendada: ").append(recipes.get(recipe)).append("\n");
 
             Map<String, Float> ingredients = recipe.getIngredients();
             for (Map.Entry<String, Float> entry : ingredients.entrySet()) {
@@ -176,7 +175,7 @@ public class MainView extends JFrame implements PropertyChangeListener
         this.txtBestRecommendations.setWrapStyleWord(true);
         this.txtBestRecommendations.setEditable(false);
         textAreaFrame.pack();
-        textAreaFrame.setSize(400, 400);
+        textAreaFrame.setSize(550, 400);
 
         textAreaFrame.setVisible(true);
     }

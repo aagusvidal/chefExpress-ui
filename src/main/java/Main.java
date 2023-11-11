@@ -1,10 +1,9 @@
 
 
 import core.ChefExpress;
-import core.ChefExpressStatistics;
-import core.VideoRecipeRecommender;
+import core.HistoricalRecipesCounter;
 import factories.ChefExpressBuilder;
-import factories.ChefExpressStatisticsFactory;
+import factories.HistoricalRecipesCounterFactory;
 import vistas.MainView;
 
 
@@ -17,10 +16,10 @@ public class Main
                 ChefExpressBuilder builder = new ChefExpressBuilder();
                 ChefExpress recommender = builder.build("conf/chefExpress.properties");
 
-                ChefExpressStatisticsFactory statisticsFactory = new ChefExpressStatisticsFactory();
-                ChefExpressStatistics chefExpressStatistics = statisticsFactory.create(recommender, "conf/chefExpress.properties");
+                HistoricalRecipesCounterFactory historicalRecipesCounterFactory = new HistoricalRecipesCounterFactory();
+                HistoricalRecipesCounter historicalRecipesCounter = historicalRecipesCounterFactory.createHistoricalRecipesCounter(recommender);
 
-                MainView view = new MainView(recommender, chefExpressStatistics);
+                MainView view = new MainView(recommender, historicalRecipesCounter);
                 view.start();
         }
 }
