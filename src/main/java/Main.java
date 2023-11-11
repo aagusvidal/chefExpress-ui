@@ -1,10 +1,9 @@
 
 
-import core.ChefExpressStatistics;
-import core.VideoRecipeRecommendator;
-import factories.ChefExpressStatisticsFactory;
-import factories.VideoRecipeRecommendatorBuilder;
-import interfaces.RecipeScorer;
+import core.ChefExpress;
+import core.HistoricalRecipesCounter;
+import factories.ChefExpressBuilder;
+import factories.HistoricalRecipesCounterFactory;
 import vistas.MainView;
 
 
@@ -14,15 +13,13 @@ public class Main
 {
         public static void main(String[] args) throws Exception
         {
-                VideoRecipeRecommendatorBuilder builder = new VideoRecipeRecommendatorBuilder();
-                VideoRecipeRecommendator recommender = builder.build("conf/chefExpress.properties");
+                ChefExpressBuilder builder = new ChefExpressBuilder();
+                ChefExpress recommender = builder.build("conf/chefExpress.properties");
 
-                List<RecipeScorer> recipeScorers = builder.getRecipeScorers();
+                HistoricalRecipesCounterFactory historicalRecipesCounterFactory = new HistoricalRecipesCounterFactory();
+                HistoricalRecipesCounter historicalRecipesCounter = historicalRecipesCounterFactory.createHistoricalRecipesCounter(recommender);
 
-                ChefExpressStatisticsFactory statisticsFactory = new ChefExpressStatisticsFactory();
-                ChefExpressStatistics chefExpressStatistics = statisticsFactory.create(recommender, "conf/chefExpress.properties");
-
-                MainView view = new MainView(recommender, recipeScorers, chefExpressStatistics);
+                MainView view = new MainView(recommender, historicalRecipesCounter);
                 view.start();
         }
 }
