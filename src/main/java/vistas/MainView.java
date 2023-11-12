@@ -16,7 +16,6 @@ import java.net.URISyntaxException;
 import core.ChefExpress;
 import core.HistoricalRecipesCounter;
 import entities.Recipe;
-import entities.Recommendation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,8 +25,12 @@ public class MainView extends JFrame implements PropertyChangeListener
 {
     private JComboBox<String> comboBox;
     private JPanel panel;
+
+    private  JPanel buttonsPanel;
     private JLabel labelTitulo;
     private JButton btnRecommend;
+
+    private JButton btnRecipesUpdater;
     private JButton btnBestRecommendations;
     private JTextPane lblRecommendations;
     private MainController controller;
@@ -66,11 +69,16 @@ public class MainView extends JFrame implements PropertyChangeListener
         this.panel.add(this.btnRecommend);
 
         addLabelRecommendations();
-
+        buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
         addBestRecommendationsBtn();
+        buttonsPanel.add(Box.createVerticalStrut(10));
+        addRecipesUpdaterBtn();
+
+        panel.add(buttonsPanel);
 
         add(panel);
-        setSize(400, 400);
+        setSize(400, 410);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -78,8 +86,16 @@ public class MainView extends JFrame implements PropertyChangeListener
         this.btnBestRecommendations = new JButton();
         this.btnBestRecommendations.setText("Ver recomendaciones populares");
         this.btnBestRecommendations.setBounds(10, 350, 100, 27);
+        this.btnBestRecommendations.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.buttonsPanel.add(this.btnBestRecommendations);
+    }
 
-        this.panel.add(this.btnBestRecommendations);
+    private void addRecipesUpdaterBtn() {
+        this.btnRecipesUpdater = new JButton();
+        this.btnRecipesUpdater.setText("Cambiar Recetas");
+        this.btnRecipesUpdater.setBounds(10, 350, 100, 27);
+        this.btnRecipesUpdater.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.buttonsPanel.add(this.btnRecipesUpdater);
     }
 
     private void addLabelRecommendations() {
@@ -98,6 +114,10 @@ public class MainView extends JFrame implements PropertyChangeListener
 
     public JButton getBtnRecommend() {
         return this.btnRecommend;
+    }
+
+    public JButton getBtnRecipesUpdater() {
+        return this.btnRecipesUpdater;
     }
 
     public JComboBox<String> getComboBox() {
