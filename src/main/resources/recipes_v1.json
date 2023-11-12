@@ -10,10 +10,11 @@
     },
     {
         "id": 2,
-	    "name": "Pescado con espárragos al limón",
+	    "name": "Pescado con ensalada de verduras verdes",
         "ingredients": {
             "pollo": 2.0,
             "espárragos": 8.0,
+            "lechuga": 8.0,
             "limón": 1.0,
             "papas": 2.0,
             "aceite de oliva": 2.0,
