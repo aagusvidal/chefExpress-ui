@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 
 import core.ChefExpress;
 import core.HistoricalRecipesCounter;
+import core.RecipesUpdater;
 import entities.Recipe;
 
 import java.util.Arrays;
@@ -39,9 +40,9 @@ public class MainView extends JFrame implements PropertyChangeListener
 
     private HistoricalRecipesCounter historicalRecipesCounter;
 
-    public MainView(ChefExpress recommender, HistoricalRecipesCounter historicalRecipesCounter) {
+    public MainView(ChefExpress recommender, HistoricalRecipesCounter historicalRecipesCounter, RecipesUpdater recipesUpdater) {
         createViewComponents();
-        this.controller = new MainController(this, recommender, historicalRecipesCounter);
+        this.controller = new MainController(this, recommender, historicalRecipesCounter, recipesUpdater);
         this.historicalRecipesCounter = historicalRecipesCounter;
         recommender.attach(this);
     }

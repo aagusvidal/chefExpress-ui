@@ -2,6 +2,7 @@ package controllers;
 
 import core.ChefExpress;
 import core.HistoricalRecipesCounter;
+import core.RecipesUpdater;
 import entities.Recipe;
 import vistas.MainView;
 import javax.swing.*;
@@ -14,13 +15,17 @@ import java.util.concurrent.TimeUnit;
 
 public class MainController implements PropertyChangeListener, ActionListener {
     private MainView mainView;
+
     private ChefExpress recommender;
 
     private HistoricalRecipesCounter historicalRecipesCounter;
 
-    public MainController(MainView view, ChefExpress recommender, HistoricalRecipesCounter historicalRecipesCounter) {
+    private RecipesUpdater recipesUpdater;
+
+    public MainController(MainView view, ChefExpress recommender, HistoricalRecipesCounter historicalRecipesCounter, RecipesUpdater recipesUpdater) {
         this.mainView = view;
         this.recommender = recommender;
+        this.recipesUpdater = recipesUpdater;
         this.historicalRecipesCounter = historicalRecipesCounter;
         recommender.attach(this);
 
@@ -47,11 +52,25 @@ public class MainController implements PropertyChangeListener, ActionListener {
                 throw new RuntimeException(e);
             }
         }
+
+        if (event.getSource() == this.mainView.getBtnRecipesUpdater()) {
+            try {
+                this.updateRecipes();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private void onBestRecommendations() throws InterruptedException {
         TimeUnit.SECONDS.sleep(3);
         this.mainView.showBestRecommendationsWindow(this.historicalRecipesCounter.getHistoricRecipes());
+    }
+
+    private void updateRecipes() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(2);
+        this.recipesUpdater.updateRecipes();
+        this.onRecommend();
     }
 
     private void onRecommend() {
