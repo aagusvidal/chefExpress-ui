@@ -140,7 +140,7 @@ public class MainView extends JFrame implements PropertyChangeListener
 
         for (Recipe recipe : recipes) {
             recommendationsText.append("<b>Receta:</b> ").append(recipe.getName()).append("<br>");
-           // recommendationsText.append("<a href=\"").append(recipe.getLink()).append("\"><u>Ver receta en YouTube</u></a><br>");
+           recommendationsText.append("<a href=\"").append(recipe.getVideoLink()).append("\"><u>Ver receta en YouTube</u></a><br>");
             recommendationsText.append("<b>Ingredientes:</b><br>");
 
             for (Map.Entry<String, Float> entry : recipe.getIngredients().entrySet()) {

@@ -18,6 +18,6 @@ dependencies {
 
 	// This dependency is used internally, and not exposed to consumers on their own compile classpath.
 	implementation 'com.google.guava:guava:30.1.1-jre'
-	implementation 'com.github.aagusvidal:chefExpress-core:423279eba0'
-	implementation 'com.github.FacundoRuiz10:chefExpress-statistics:ffd4de2b7b'
+	implementation 'com.github.aagusvidal:chefExpress-core:ba6abae768'
+	implementation 'com.github.FacundoRuiz10:chefExpress-statistics:f293753709'
 }
